@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini API Demo</title>
+</head>
+<body>
+  <h1>Random Number + Time from Mini API</h1>
+  <p id="message">Click the button to get data from the server.</p>
+  <button onclick="getData()">Get Data</button>
+
+  <script>
+    function getData() {
+      fetch("/api/random")
+        .then(response => {
+          if (!response.ok) throw new Error("Request failed");
+          return response.json();
+        })
+        .then(data => {
+          const message = `Random Number: ${data.number}  
+Server Time: ${new Date(data.time).toLocaleString()}`;
+          document.getElementById("message").textContent = message;
+        })
+        .catch(error => {
+          console.error("Fetch error:", error);
+          document.getElementById("message").textContent = "Error fetching data from server.";
+        });
+    }
+  </script>
+</body>
+</html>
